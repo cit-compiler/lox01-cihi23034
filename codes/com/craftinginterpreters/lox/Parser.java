@@ -5,12 +5,15 @@ import java.util.List;
 import static com.craftinginterpreters.lox.TokenType.*;
 
 public class Parser {
+    private static class ParseError extends RuntimeException {}
     private final List<Token> tokens;
     private int current = 0;
     
     Parser(List<Token> tokens) {
         this.tokens = tokens;
     }
+
+
 
     private Expr expression() {
         return equality();
@@ -96,6 +99,12 @@ public class Parser {
         return false;
     }
 
+    private Token consume(TokenType type, String message) {
+        if (check(type)) return advance();
+        
+        throw error(peek(), message);
+    }
+
     private boolean check(TokenType type) {
         if (isAtEnd()) return false;
         return peek().type == type;
@@ -116,6 +125,32 @@ public class Parser {
     
     private Token previous() {
         return tokens.get(current - 1);
+    }
+
+    private ParseError error(Token token, String message) {
+        Lox.error(token, message);
+        return new ParseError();
+    }
+
+    private void synchronize() {
+        advance();
+        
+        while (!isAtEnd()) {
+            if (previous().type == SEMICOLON) return;
+            
+            switch (peek().type) {
+                case CLASS:
+                case FUN:
+                case VAR:
+                case FOR:
+                case IF:
+                case WHILE:
+                case PRINT:
+                case RETURN:
+                return;
+            }
+            advance();
+        }
     }
 
 }

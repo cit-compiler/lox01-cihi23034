@@ -155,7 +155,7 @@ public class Parser {
                 case WHILE:
                 case PRINT:
                 case RETURN:
-                    return;
+                return;
             }
             advance();
         }

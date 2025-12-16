@@ -63,15 +63,15 @@ public class Scanner {
             case '+': addToken(PLUS); break;
             case ';': addToken(SEMICOLON); break;
             case '*': addToken(STAR); break; 
-            case  '!' :
+            case '!' :
                 if( match ('=')){
                     addToken(BANG_EQUAL);
                 } else{
                     addToken(BANG);
                 }
-
                 addToken ( match ( '=' ) ? BANG_EQUAL : BANG );
                 break ;
+
             case  '=' :
                 addToken ( match ( '=' ) ? EQUAL_EQUAL : EQUAL );
                 break ;
@@ -87,6 +87,7 @@ public class Scanner {
                 } else {
                     addToken ( SLASH ); 
                 }
+                
             case  ' ' :
             case  '\r' :
             case  '\t' :

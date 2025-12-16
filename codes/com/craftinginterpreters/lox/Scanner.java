@@ -64,11 +64,11 @@ public class Scanner {
             case ';': addToken(SEMICOLON); break;
             case '*': addToken(STAR); break; 
             case  '!' :
-                /*if( match ('=')){
+                if( match ('=')){
                     addToken(BANG_EQUAL);
                 } else{
                     addToken(BANG);
-                }*/
+                }
 
                 addToken ( match ( '=' ) ? BANG_EQUAL : BANG );
                 break ;
